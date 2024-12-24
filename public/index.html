@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Basic htmx Example</title>
+    <script src="./htmx.min.js"></script>
+  </head>
+  <body>
+    <h1>Welcome to htmx Example</h1>
+    <!-- Button that triggers content load -->
+    <button hx-get="me" hx-target="#greeting" hx-swap="innerHTML">
+      Click me to load greeting
+    </button>
+    <button hx-get="login" hx-target="#greeting" hx-swap="innerHTML">
+      Click me to login
+    </button>
+    <!-- Target div for loaded content -->
+    <div id="greeting"></div>
+  </body>
+</html>
+
