@@ -10,13 +10,14 @@ use tower_http::{
     services::ServeDir,
 };
 
-use wraped::types::{app_state::AppState, auth_code::AuthCode, song::Song};
-
-use rspotify::{
-    clients::OAuthClient, model::TimeRange, scopes, AuthCodeSpotify, Credentials, OAuth,
+use wraped::{
+    spotify::helpers::spotify_client,
+    types::{app_state::AppState, auth_code::AuthCode, song::Song},
 };
 
-use std::{env, sync::Arc};
+use rspotify::{clients::OAuthClient, model::TimeRange, OAuth};
+
+use std::sync::Arc;
 
 #[tokio::main]
 async fn main() {
@@ -28,28 +29,7 @@ async fn main() {
         .allow_origin(Any)
         .allow_headers([HeaderName::from_static("content-type")]);
 
-    let oauth = OAuth {
-        scopes: scopes!(
-            "user-read-currently-playing",
-            "user-read-private",
-            "user-read-private",
-            "playlist-modify-private",
-            "user-top-read"
-        ),
-        redirect_uri: "http://localhost:3000/callback".to_string(),
-        ..Default::default()
-    };
-
-    let spotify_client_id =
-        env::var("SPOTIFY_CLIENT_ID").expect("SPOTIFY_CLIENT_ID not found in .env");
-
-    let spotify_client_secret =
-        env::var("SPOTIFY_CLIENT_SECRET").expect("SPOTIFY_CLIENT_SECRET not found in .env");
-
-    let creds = Credentials::new(&spotify_client_id, &spotify_client_secret);
-    let config = rspotify::Config::default();
-    let client = Arc::new(AuthCodeSpotify::with_config(creds, oauth, config));
-
+    let client = Arc::new(spotify_client());
     let state = AppState { spotify: client };
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
