@@ -2,10 +2,8 @@ use axum::{routing::get, Router};
 
 use std::sync::Arc;
 
-use tower_http::services::ServeDir;
-
 use wraped::{
-    routes::{callback, login, top_songs},
+    routes::{callback, index, login, top_songs},
     spotify::helpers::spotify_client,
     types::app_state::AppState,
 };
@@ -23,9 +21,9 @@ async fn main() {
     let app = Router::new()
         .route("/callback", get(callback::handler))
         .route("/login", get(login::handler))
-        .route("/me", get(top_songs::handler))
+        .route("/top_songs", get(top_songs::handler))
         .with_state(state)
-        .nest_service("/", ServeDir::new("../public"));
+        .nest_service("/", index::handler());
 
     println!("Listening on http://localhost:3000/");
     axum::serve(listener, app).await.unwrap();
