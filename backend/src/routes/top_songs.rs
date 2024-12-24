@@ -1,6 +1,5 @@
 use crate::routes::prelude::*;
 use crate::spotify::helpers::get_top_songs;
-// use crate::types::song::Song;
 
 pub async fn handler(State(state): State<AppState>) -> impl IntoResponse {
     let client = &state.spotify;
@@ -13,7 +12,7 @@ pub async fn handler(State(state): State<AppState>) -> impl IntoResponse {
 
     let list_items: String = top_songs
         .iter()
-        .map(|song| format!("<li>{}</li>", song.name))
+        .map(|song| format!("<li>{} <img src={} /></li>", song.name, song.song_image_uri))
         .collect::<Vec<_>>()
         .join("");
 
