@@ -1,0 +1,16 @@
+<!-- templates/home.html -->
+{% extends "base.html" %} {% block app %}
+<h1>Weekly Spotify Wraped & Stats</h1>
+<select
+  hx-get="top_songs"
+  hx-target="#top-songs"
+  hx-trigger="change"
+  name="time_range"
+>
+  <option value="short_term">4 weeks</option>
+  <option value="medium_term">6 months</option>
+  <option value="long_term">Lifetime</option>
+</select>
+
+<div id="top-songs" hx-history-elt></div>
+{% endblock %}

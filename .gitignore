@@ -21,3 +21,6 @@ Cargo.lock
 #.idea/
 htmx.min.js
 .env
+/target
+.shuttle*
+Secrets*.toml

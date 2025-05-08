@@ -1,0 +1,13 @@
+<!-- templates/login.html -->
+{% extends "base.html" %} {% block app %}
+<button
+  id="login-button"
+  hx-get="/login"
+  hx-target="#login"
+  hx-swap="innerHTML"
+>
+  Click me to login
+</button>
+
+<div id="login"></div>
+{% endblock %}

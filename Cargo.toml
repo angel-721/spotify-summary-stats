@@ -1,0 +1,29 @@
+[package]
+name = "wraped"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+askama = {version = "0.13.1"}
+axum = {version="0.7.9", features=["macros"]}
+chrono = "0.4.39"
+dotenv = "0.15.0"
+env_logger = "0.11.6"
+rspotify = {version="0.13.3", features=["cli"]}
+serde = "1.0.216"
+serde_json = "1.0.134"
+shuttle-axum = {version = "0.54.0", default-features = false, features=["axum-0-7"]}
+shuttle-runtime = "0.54.0"
+thiserror = "2.0.12"
+tokio = {version="1.42.0", features=["rt-multi-thread"]}
+tower = "0.5.2"
+tower-http = {version="0.6.2", features = ["fs", "trace", "cors"]}
+
+[lints.clippy]
+unwrap_used = "deny"
+unhandled_errors = "deny"
+unknown_clippy_lints = "deny"
+expect_used = "deny"
+option_unwrap_used = "deny"
+result_unwrap_used = "deny"
+result_expect_used = "deny"
