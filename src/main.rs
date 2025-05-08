@@ -9,8 +9,9 @@ use wraped::{
 };
 
 fn is_running_on_shuttle() -> bool {
-    // The SHUTTLE_RUNTIME environment variable should only be set in the Shuttle environment
-    std::env::var("SHUTTLE_RUNTIME").is_ok()
+    // The SHUTTLE environment variable should only be set in the Shuttle environment
+    // https://docs.shuttle.dev/docs/deployment-environment
+    std::env::var("SHUTTLE").is_ok()
 }
 
 #[shuttle_runtime::main]
