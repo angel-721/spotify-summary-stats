@@ -8,16 +8,11 @@ use rspotify::{
 };
 use std::sync::Arc;
 
-pub fn spotify_client(spotify_client_id: &str, spotify_client_secret: &str) -> AuthCodeSpotify {
-    // let spotify_client_id = match env::var("SPOTIFY_CLIENT_ID") {
-    //     Ok(id) => id,
-    //     Err(_) => panic!("SPOTIFY_CLIENT_ID not found in .env"),
-    // };
-    //
-    // let spotify_client_secret = match env::var("SPOTIFY_CLIENT_SECRET") {
-    //     Ok(secret) => secret,
-    //     Err(_) => panic!("SPOTIFY_CLIENT_SECRET not found in .env"),
-    // };
+pub fn spotify_client(
+    spotify_client_id: &str,
+    spotify_client_secret: &str,
+    redirect_uri: &str,
+) -> AuthCodeSpotify {
     let oauth = OAuth {
         scopes: scopes!(
             "user-read-currently-playing",
@@ -26,7 +21,7 @@ pub fn spotify_client(spotify_client_id: &str, spotify_client_secret: &str) -> A
             "playlist-modify-private",
             "user-top-read"
         ),
-        redirect_uri: "http://127.0.0.1:8000/callback".to_string(),
+        redirect_uri: redirect_uri.to_string(),
         ..Default::default()
     };
 
