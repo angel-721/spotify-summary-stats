@@ -9,7 +9,8 @@ use wraped::{
 };
 
 fn is_running_on_shuttle() -> bool {
-    std::env::var("SHUTTLE_RUNTIME").is_ok() || std::env::var("PUBLIC_URL").is_ok()
+    // The SHUTTLE_RUNTIME environment variable should only be set in the Shuttle environment
+    std::env::var("SHUTTLE_RUNTIME").is_ok()
 }
 
 #[shuttle_runtime::main]
@@ -24,8 +25,6 @@ async fn main(#[shuttle_runtime::Secrets] secrets: SecretStore) -> shuttle_axum:
     let client = Arc::new(spotify_client(&client, &secret, &callback_url));
     let state = AppState { spotify: client };
 
-    // let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
-
     let app = Router::new()
         .route("/", get(index::handler))
         .route("/callback", get(callback::handler))
@@ -35,7 +34,4 @@ async fn main(#[shuttle_runtime::Secrets] secrets: SecretStore) -> shuttle_axum:
         .with_state(state);
 
     Ok(app.into())
-    // Ok(app.into())
-    // println!("Listening on http://localhost:3000/");
-    // axum::serve(listener, app).await.unwrap();
 }
