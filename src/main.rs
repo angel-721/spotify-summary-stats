@@ -1,6 +1,7 @@
 use axum::{routing::get, Router};
 use shuttle_runtime::SecretStore;
 use std::sync::Arc;
+use tower_http::services::ServeDir;
 
 use wraped::{
     routes::{auth, callback, index, login, top_songs},
@@ -32,7 +33,8 @@ async fn main(#[shuttle_runtime::Secrets] secrets: SecretStore) -> shuttle_axum:
         .route("/login", get(login::handler))
         .route("/top_songs", get(top_songs::handler))
         .route("/auth", get(auth::handler))
-        .with_state(state);
+        .with_state(state)
+        .nest_service("/assets", ServeDir::new("assets"));
 
     Ok(app.into())
 }
